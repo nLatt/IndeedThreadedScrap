@@ -17,6 +17,6 @@ class IndeedPipeline:
         self.file.close()
 
     def process_item(self, item, spider):
-        writer = csv.writer(self.file, delimiter=" ")
+        writer = csv.writer(self.file)
         writer.writerow(item["link"])
         return item

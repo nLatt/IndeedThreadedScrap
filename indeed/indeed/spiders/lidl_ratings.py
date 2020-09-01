@@ -22,7 +22,6 @@ class LidlRatingsSpider(scrapy.Spider):
         except Exception as e:
             prRed(e)
         # all_links_css = response.css("a.icl-Button::attr(href)").getall()
-        for link in self.all_links:
-            yield {
-                "link": link
-            }
+        yield {
+            "link": self.all_links
+        }
