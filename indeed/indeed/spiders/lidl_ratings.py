@@ -12,7 +12,7 @@ class LidlRatingsSpider(scrapy.Spider):
         try:
             all_links_xpath = response.xpath("//a[@class='icl-Button icl-Button--tertiary icl-Button--lg']/@href").getall()
             regexed_links = [re.search(r"[?](.*)", x).group() for x in all_links_xpath if re.search(r"[?](.*)", x) != None]
-            [self.all_links.append(x) for x in regexed_links if x not in self.all_dlinks]
+            [self.all_links.append(x) for x in regexed_links if x not in self.all_links]
             link_to_go_to = self.start_urls[0] + self.all_links[-1]
 
             # Go to the last rating page that is linked on the current page
@@ -22,5 +22,7 @@ class LidlRatingsSpider(scrapy.Spider):
         except Exception as e:
             prRed(e)
         # all_links_css = response.css("a.icl-Button::attr(href)").getall()
-        print(self.all_links)
-        pass
+        for link in self.all_links:
+            yield {
+                "link": link
+            }
