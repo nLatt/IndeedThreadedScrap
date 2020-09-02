@@ -15,6 +15,7 @@ class IndeedPipeline:
         filename = Path("indeed/data_files/urls.csv")
         self.file = open(filename, "w", newline="")
         self.writer = csv.writer(self.file)
+        self.writer.writerow(["?start=00"])
 
 
     def close_spider(self, spider):

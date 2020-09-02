@@ -2,9 +2,9 @@ import scrapy
 
 
 class RatingsSpider(scrapy.Spider):
-    name = 'ratings_spider'
-    allowed_domains = ['https://www.indeed.fr/cmp/Lidl/reviews']
+    name = 'ratings'
     start_urls = ['http://https://www.indeed.fr/cmp/Lidl/reviews/']
 
-    def parse(self, response):
+    def parse(self, response): # add an argument for the urls that get attributed to this process
+
         pass
