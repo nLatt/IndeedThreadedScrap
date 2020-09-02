@@ -6,12 +6,14 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from pathlib import Path
 import csv
 
 
 class IndeedPipeline:
     def open_spider(self, spider):
-        self.file = open("urls.csv", "w", newline="")
+        filename = Path("indeed/data_files/urls.csv")
+        self.file = open(filename, "w", newline="")
         writer = csv.writer(self.file)
         writer.writerow(["?start=00"])
 
