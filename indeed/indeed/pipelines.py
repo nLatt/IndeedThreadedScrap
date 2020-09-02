@@ -12,11 +12,14 @@ import csv
 class IndeedPipeline:
     def open_spider(self, spider):
         self.file = open("urls.csv", "w", newline="")
+        writer = csv.writer(self.file)
+        writer.writerow(["?start=00"])
+
 
     def close_spider(self, spider):
         self.file.close()
 
     def process_item(self, item, spider):
         writer = csv.writer(self.file)
-        writer.writerow(item["link"])
+        writer.writerow([item["link"]])
         return item
