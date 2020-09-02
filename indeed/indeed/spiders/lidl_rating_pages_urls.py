@@ -4,6 +4,7 @@ from ..Lib.prcolor import *
 
 class LidlRatingUrlsSpider(scrapy.Spider):
     name = 'rating_urls'
+    # start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews?fcountry=ALL"]
     start_urls = ['https://www.indeed.fr/cmp/Lidl/reviews']
     all_links = []
 
@@ -15,7 +16,7 @@ class LidlRatingUrlsSpider(scrapy.Spider):
 
             # Go to the last rating page that is linked on the current page
             if links == []:
-                prRed("Scrapped all URLs!")
+                prRed("Scraped all URLs!")
                 return
 
             links.pop() # removes the last element of the list, its the same as links[0]
