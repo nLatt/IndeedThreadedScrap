@@ -8,6 +8,12 @@ class RatingUrlsSpider(scrapy.Spider):
     start_urls = ['https://www.indeed.fr/cmp/Lidl/reviews']
     all_links = []
 
+    custom_settings = {
+        "ITEM_PIPELINES": {
+               'indeed.pipelines.RatingUrlsPipeline': 400,
+        }
+    }
+
     def parse(self, response):
         try:
             all_links_xpath = response.xpath("//a[@class='icl-Button icl-Button--tertiary icl-Button--lg']/@href").getall()

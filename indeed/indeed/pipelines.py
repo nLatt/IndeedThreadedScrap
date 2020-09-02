@@ -10,7 +10,7 @@ from pathlib import Path
 import csv
 
 
-class IndeedPipeline:
+class RatingUrlsPipeline:
     def open_spider(self, spider):
         filename = Path("indeed/data_files/urls.csv")
         self.file = open(filename, "w", newline="")
