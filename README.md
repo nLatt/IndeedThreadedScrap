@@ -7,7 +7,14 @@ Check requirements.txt
 Is recursively scraping [Lidl job offers](https://www.indeed.fr/cmp/Lidl/reviews) to get all the different URLs of the rating pages since only a couple of ratings can be displayed per page
 
 ### Spider "ratings":
-******explanation******
+Is getting every rating of every url fetched by Spider "rating_urls". This includes the actual rating, title, comment, data about the rating (author, date, job, location) and pro/cons given by the author.
+
+Coming features:
+  - parallel processing
+  - NLTK
+  - processing/analyzing the scraped data (maybe)
+
+note to self
 
 relevant structure:
   <div cmp-Review-container>:
