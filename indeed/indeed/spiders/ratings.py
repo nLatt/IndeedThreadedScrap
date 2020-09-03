@@ -1,5 +1,6 @@
 import scrapy
 from ..Lib.prcolor import *
+import pprint
 
 class RatingsSpider(scrapy.Spider):
     name = 'ratings'
@@ -12,23 +13,25 @@ class RatingsSpider(scrapy.Spider):
     }
 
     def parse(self, response): # add an argument for the urls that get attributed to this process
-        # print(response.xpath("//div[@class='cmp-Review-container']/@data-tn-entityid").getall())
+
+        pp = pprint.PrettyPrinter(indent=4)
 
         for rating in response.xpath("//div[@class='cmp-Review-container']"):
+            descendant_text = rating.xpath("div/div/span[@class='cmp-ReviewAuthor']/descendant::*/text()").getall()
+            current_text = [x for x in [x.strip() for x in  rating.xpath("div/div/span[@class='cmp-ReviewAuthor']/text()").getall()] if len(x) > 1]
             rating = {
-                # "rating": rating.xpath(),
-                "rating_content": {
-                    "rating_title": rating.xpath("div/div/a[@class='cmp-Review-titleLink']/text()").get(),
-                    "rating_author": rating.xpath("div/span[@class='cmp-ReviewAuthor']/text()").getall(),
-                    # "rating_text": rating.xpath(),
-                    # "rating pro_con": rating.xpath()
+                "rating_title": rating.xpath("div/div/a[@class='cmp-Review-titleLink']/text()").get(),
+
+                "rating_author": {
+                    "job": descendant_text[0],
+                    "location": descendant_text[1],
+                    "status": current_text[0],
+                    "date": current_text[1],
+                    },
+                # "rating_text": rating.xpath(),
+                # "rating pro_con": rating.xpath()
                 }
-            }
-            # prRed(rating.xpath("div[@class='cmp-Review-content']/descendant::*/text()").getall())
-            prRed(rating)
-            # prRed(rating)
-            # yield {
-            #     "tree": rating.xpath("").get()
-            #     }
+
+            pp.pprint(rating)
 
         pass
