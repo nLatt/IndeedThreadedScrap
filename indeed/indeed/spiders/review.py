@@ -35,6 +35,18 @@ class RatingsSpider(scrapy.Spider):
                         "review_cons": review.xpath("descendant::*/div[@class='cmp-ReviewProsCons-consText']/span/span/text()").get()
                         }
                     }
-                yield review
             except Exception as e:
                 prRed(e)
+
+            # review["review_text"] = None
+            for key in ["review_text", "review_title", "review_rating"]:
+                if review[key] == None:
+                    prRed("\nWill be discarded, reason: this dataset was incomplete.\neither 'review_text', 'review_title' or 'review_rating' are None.")
+                    break
+            else:
+                prGreen("\nDataset is clean!")
+                yield review
+            prCyan("lol")
+            # continue
+
+        prRed("kek")
