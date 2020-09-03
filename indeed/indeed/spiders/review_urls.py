@@ -3,7 +3,7 @@ import re
 from ..Lib.prcolor import *
 
 class RatingUrlsSpider(scrapy.Spider):
-    name = 'rating_urls'
+    name = 'review_urls'
     # start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews?fcountry=ALL"]
     start_urls = ['https://www.indeed.fr/cmp/Lidl/reviews']
     all_links = []
