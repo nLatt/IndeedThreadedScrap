@@ -17,20 +17,22 @@ class RatingsSpider(scrapy.Spider):
         pp = pprint.PrettyPrinter(indent=4)
 
         for rating in response.xpath("//div[@class='cmp-Review-container']"):
-            descendant_text = rating.xpath("div/div/span[@class='cmp-ReviewAuthor']/descendant::*/text()").getall()
-            current_text = [x for x in [x.strip() for x in  rating.xpath("div/div/span[@class='cmp-ReviewAuthor']/text()").getall()] if len(x) > 1]
-            rating = {
-                "rating_title": rating.xpath("div/div/a[@class='cmp-Review-titleLink']/text()").get(),
+            text = [x for x in [x.strip() for x in  rating.xpath("div/div/span[@class='cmp-ReviewAuthor']/descendant-or-self::*/text()").getall()] if len(x) > 1]
+            try:
+                rating = {
+                    "rating_title": rating.xpath("div/div/a[@class='cmp-Review-titleLink']/text()").get(),
 
-                "rating_author": {
-                    "job": descendant_text[0],
-                    "location": descendant_text[1],
-                    "status": current_text[0],
-                    "date": current_text[1],
-                    },
-                # "rating_text": rating.xpath(),
-                # "rating pro_con": rating.xpath()
-                }
+                    "rating_author": {
+                        "job": text[0],
+                        "status": text[1],
+                        "location": text[2],
+                        "date": text[3],
+                        },
+                    # "rating_text": rating.xpath(),
+                    # "rating pro_con": rating.xpath()
+                    }
+            except Exception as e:
+                prRed(e)
 
             pp.pprint(rating)
 
