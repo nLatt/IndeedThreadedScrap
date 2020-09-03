@@ -20,9 +20,8 @@ class RatingsSpider(scrapy.Spider):
             text = [x for x in [x.strip() for x in  review.xpath("div/div/span[@class='cmp-ReviewAuthor']/descendant-or-self::*/text()").getall()] if len(x) > 1]
             try:
                 review = {
-                    "review_rating"
+                    # "review_rating": review.xpath("div/div/div[@class='cmp-RatingStar s cmp-RatingStars--lg']/@aria-label").get(),
                     "review_title": review.xpath("div/div/a[@class='cmp-Review-titleLink']/text()").get(),
-
                     "review_author": {
                         "job": text[0],
                         "status": text[1],

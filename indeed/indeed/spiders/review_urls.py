@@ -6,7 +6,7 @@ class RatingUrlsSpider(scrapy.Spider):
     name = 'review_urls'
     # start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews?fcountry=ALL"]
     start_urls = ['https://www.indeed.fr/cmp/Lidl/reviews']
-    all_links = []
+    already_scraped_links = []
 
     custom_settings = {
         "ITEM_PIPELINES": {
@@ -18,7 +18,7 @@ class RatingUrlsSpider(scrapy.Spider):
         try:
             all_links_xpath = response.xpath("//a[@class='icl-Button icl-Button--tertiary icl-Button--lg']/@href").getall()
             regexed_links = [re.search(r"[?](.*)", x).group() for x in all_links_xpath if re.search(r"[?](.*)", x) != None]
-            links = [x for x in regexed_links if x not in self.all_links]
+            links = [x for x in regexed_links if x not in self.already_scraped_links]
 
             # Go to the last rating page that is linked on the current page
             if links == []:
@@ -33,8 +33,8 @@ class RatingUrlsSpider(scrapy.Spider):
             prRed(e)
 
         for link in links:
-            if link not in self.all_links:
+            if link not in self.already_scraped_links:
                 yield {
                     "link": link
                 }
-                self.all_links.append(link)
+                self.already_scraped_links.append(link)
