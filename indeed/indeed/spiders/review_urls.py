@@ -1,8 +1,8 @@
 import scrapy
 from color_print import *
 from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
 import re
-
 
 class RatingUrlsSpider(scrapy.Spider):
     name = 'review_urls'
@@ -15,6 +15,7 @@ class RatingUrlsSpider(scrapy.Spider):
                'indeed.pipelines.RatingUrlsPipeline': 400,
         }
     }
+
 
     def parse(self, response):
         try:
@@ -42,9 +43,7 @@ class RatingUrlsSpider(scrapy.Spider):
                 self.all_links.append(link)
 
 
-process = CrawlerProcess({
-    'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
-})
-
-process.crawl(RatingUrlsSpider)
-process.start()
+if __name__ == "__main__":
+    process = CrawlerProcess(settings=get_project_settings())
+    process.crawl(RatingUrlsSpider)
+    process.start()

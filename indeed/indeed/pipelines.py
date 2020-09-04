@@ -24,3 +24,7 @@ class RatingUrlsPipeline:
     def process_item(self, item, spider):
         self.writer.writerow([item["link"]])
         return item
+
+class RatingsPipeline:
+    def open_spider(self, spider);
+    pass

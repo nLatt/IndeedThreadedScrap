@@ -1,19 +1,26 @@
 import scrapy
 from color_print import *
 from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
+
 import pprint
 
 class RatingsSpider(scrapy.Spider):
     name = 'reviews'
-    start_urls = ['https://www.indeed.fr/cmp/Lidl/reviews/']
 
     custom_settings = {
         "ITEM_PIPELINES": {
-               # 'indeed.pipelines.RatingUrlsPipeline': 400,
+               'indeed.pipelines.RatingUrlsPipeline': 400,
         }
     }
 
+    def __init__(self, url):
+        self.start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews" + url]
+        prRed(url)
+
+
     def parse(self, response): # add an argument for the urls that get attributed to this process
+
         pp = pprint.PrettyPrinter(indent=4)
 
         for review in response.xpath("//div[@class='cmp-Review-container']"):
@@ -51,9 +58,7 @@ class RatingsSpider(scrapy.Spider):
         prRed("kek")
 
 
-process = CrawlerProcess({
-    'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
-})
-
-process.crawl(RatingsSpider)
-process.start()
+if __name__ == "__main__":
+    process = CrawlerProcess(settings=get_project_settings())
+    process.crawl(RatingsSpider, url="?start=1400")
+    process.start()
