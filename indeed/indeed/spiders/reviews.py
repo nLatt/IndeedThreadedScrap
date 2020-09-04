@@ -14,15 +14,23 @@ class RatingsSpider(scrapy.Spider):
         }
     }
 
-    def __init__(self, url):
-        self.start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews" + url]
-        self.pp = pprint.PrettyPrinter(indent=4)
-        prRed(url)
+    def __init__(self, urls):
+        self.counter = 0
+        self.start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews"]
+        self.urls = urls
 
 
     def parse(self, response): # add an argument for the urls that get attributed to this process
+        # for url in self.urls:
+        for url in range(len(self.urls)):
+            joined_url = response.urljoin(self.urls[url])
+            yield scrapy.Request(url=joined_url, callback=self.parse_reviews)
+        # prRed(url)
+        prRed("End of spider.")
 
 
+    def parse_reviews(self, response):
+        print("Inside scraper!")
         for review in response.xpath("//div[@class='cmp-Review-container']"):
             text = [x for x in [x.strip() for x in  review.xpath("descendant::*/span[@class='cmp-ReviewAuthor']/descendant-or-self::*/text()").getall()] if len(x) > 1]
             try:
@@ -51,17 +59,18 @@ class RatingsSpider(scrapy.Spider):
                     break
             else:
                 prGreen("\nDataset is clean!")
+                self.counter += 1
+                prRed(self.counter)
                 yield review
 
-        prRed("End of spider.")
 
 
 if __name__ == "__main__":
     process = CrawlerProcess(settings=get_project_settings())
-    process.crawl(RatingsSpider, url="?start=1400")
+    process.crawl(RatingsSpider, urls="?start=1400")
     process.start()
 else:
-    def crawler(url):
+    def crawler(urls):
         process = CrawlerProcess(settings=get_project_settings())
-        process.crawl(RatingsSpider, url=url)
+        process.crawl(RatingsSpider, urls=urls)
         process.start()
