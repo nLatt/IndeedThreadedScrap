@@ -31,7 +31,7 @@ class RatingsPipeline:
     def __init__(self):
         filepath = Path("indeed/data_files/ratings.json")
         self.file = open(filepath, "wb")
-        self.exporter = JsonLinesItemExporter(self.file, encoding='utf-8')
+        self.exporter = JsonItemExporter(self.file, encoding='utf-8')
         self.exporter.start_exporting()
 
     def close_spider(self, spider):
