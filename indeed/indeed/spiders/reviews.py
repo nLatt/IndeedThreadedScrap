@@ -1,5 +1,6 @@
 import scrapy
-from ..Lib.prcolor import *
+from color_print import *
+from scrapy.crawler import CrawlerProcess
 import pprint
 
 class RatingsSpider(scrapy.Spider):
@@ -13,7 +14,6 @@ class RatingsSpider(scrapy.Spider):
     }
 
     def parse(self, response): # add an argument for the urls that get attributed to this process
-
         pp = pprint.PrettyPrinter(indent=4)
 
         for review in response.xpath("//div[@class='cmp-Review-container']"):
@@ -38,7 +38,6 @@ class RatingsSpider(scrapy.Spider):
             except Exception as e:
                 prRed(e)
 
-            # review["review_text"] = None
             for key in ["review_text", "review_title", "review_rating"]:
                 if review[key] == None:
                     prRed("\nWill be discarded, reason: this dataset was incomplete.\neither 'review_text', 'review_title' or 'review_rating' are None.")
@@ -50,3 +49,11 @@ class RatingsSpider(scrapy.Spider):
             # continue
 
         prRed("kek")
+
+
+process = CrawlerProcess({
+    'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
+})
+
+process.crawl(RatingsSpider)
+process.start()
