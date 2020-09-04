@@ -31,7 +31,7 @@ class RatingsSpider(scrapy.Spider):
 
     def parse_reviews(self, response):
         print("Inside scraper!")
-        for review in response.xpath("//div[@class='cmp-Review-container']"):
+        for review in response.xpath("//div[@class='cmp-Review'][not(contains(@class, 'is-highlighted'))]"):
             text = [x for x in [x.strip() for x in  review.xpath("descendant::*/span[@class='cmp-ReviewAuthor']/descendant-or-self::*/text()").getall()] if len(x) > 1]
             try:
                 review = {
