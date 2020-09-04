@@ -14,7 +14,7 @@ import json
 
 class RatingUrlsPipeline:
     def open_spider(self, spider):
-        filepath = Path("indeed/data_files/urls.csv")
+        filepath = Path("data_files/urls.csv")
 
         self.file = open(filepath, "w", newline="")
         self.writer = csv.writer(self.file)
@@ -29,7 +29,7 @@ class RatingUrlsPipeline:
 
 class RatingsPipeline:
     def __init__(self):
-        filepath = Path("indeed/data_files/ratings.json")
+        filepath = Path("data_files/ratings.json")
         self.file = open(filepath, "wb")
         self.exporter = JsonItemExporter(self.file, encoding='utf-8')
         self.exporter.start_exporting()

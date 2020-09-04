@@ -60,3 +60,8 @@ if __name__ == "__main__":
     process = CrawlerProcess(settings=get_project_settings())
     process.crawl(RatingsSpider, url="?start=1400")
     process.start()
+else:
+    def crawler(url):
+        process = CrawlerProcess(settings=get_project_settings())
+        process.crawl(RatingsSpider, url=url)
+        process.start()
