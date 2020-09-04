@@ -10,18 +10,18 @@ class RatingsSpider(scrapy.Spider):
 
     custom_settings = {
         "ITEM_PIPELINES": {
-               'indeed.pipelines.RatingUrlsPipeline': 400,
+               'indeed.pipelines.RatingsPipeline': 400,
         }
     }
 
     def __init__(self, url):
         self.start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews" + url]
+        self.pp = pprint.PrettyPrinter(indent=4)
         prRed(url)
 
 
     def parse(self, response): # add an argument for the urls that get attributed to this process
 
-        pp = pprint.PrettyPrinter(indent=4)
 
         for review in response.xpath("//div[@class='cmp-Review-container']"):
             text = [x for x in [x.strip() for x in  review.xpath("descendant::*/span[@class='cmp-ReviewAuthor']/descendant-or-self::*/text()").getall()] if len(x) > 1]
@@ -52,10 +52,8 @@ class RatingsSpider(scrapy.Spider):
             else:
                 prGreen("\nDataset is clean!")
                 yield review
-            prCyan("lol")
-            # continue
 
-        prRed("kek")
+        prRed("End of spider.")
 
 
 if __name__ == "__main__":
