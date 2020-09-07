@@ -1,6 +1,6 @@
 # Define your item pipelines here
 #
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
+# Don"t forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
@@ -14,7 +14,7 @@ import json
 
 class RatingUrlsPipeline:
     def open_spider(self, spider):
-        filepath = Path("data_files/urls.csv")
+        filepath = Path("indeed/data_files/urls.csv")
 
         self.file = open(filepath, "w", newline="")
         self.writer = csv.writer(self.file)
@@ -29,9 +29,9 @@ class RatingUrlsPipeline:
 
 class RatingsPipeline:
     def open_spider(self, spider):
-        filepath = Path("data_files/ratings.json")
+        filepath = Path("indeed/data_files/ratings_{}.json".format(spider.filename))
         self.file = open(filepath, "wb")
-        self.exporter = JsonItemExporter(self.file, encoding='utf-8')
+        self.exporter = JsonItemExporter(self.file, encoding="utf-8")
         self.exporter.start_exporting()
 
     def close_spider(self, spider):

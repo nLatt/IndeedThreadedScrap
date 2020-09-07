@@ -6,8 +6,8 @@ import re
 
 class RatingUrlsSpider(scrapy.Spider):
     name = 'review_urls'
-    # start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews?fcountry=ALL"]
-    start_urls = ['https://www.indeed.fr/cmp/Lidl/reviews']
+    start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews?fcountry=ALL"]
+    # start_urls = ['https://www.indeed.fr/cmp/Lidl/reviews']
     all_links = []
 
     custom_settings = {

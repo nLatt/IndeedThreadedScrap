@@ -14,10 +14,11 @@ class RatingsSpider(scrapy.Spider):
         }
     }
 
-    def __init__(self, urls):
+    def __init__(self, urls, filename):
         self.counter = 0
         self.start_urls = ["https://www.indeed.fr/cmp/Lidl/reviews"]
         self.urls = urls
+        self.filename = filename
 
 
     def parse(self, response):
@@ -62,7 +63,7 @@ class RatingsSpider(scrapy.Spider):
                 yield review
 
 # to be called when executing the spider from another script
-def crawler(urls):
+def crawler(urls, filename):
     process = CrawlerProcess(settings=get_project_settings())
-    process.crawl(RatingsSpider, urls=urls)
+    process.crawl(RatingsSpider, urls=urls, filename=filename)
     process.start()
