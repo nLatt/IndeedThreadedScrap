@@ -6,7 +6,7 @@ if __name__ == "__main__":
     filepath = Path("indeed/data_files/urls.csv")
     urls = []
     process_urls = []
-    processes = 4
+    processes = multiprocessing.cpu_count()
 
     with open(filepath, "r") as file:
         reader = csv.reader(file)
@@ -18,8 +18,6 @@ if __name__ == "__main__":
 
     start_index, end_index = 0, 0
     jobs = []
-
-    crawler(urls=urls, filename="l")
 
     for proc in range(0, processes):
 
