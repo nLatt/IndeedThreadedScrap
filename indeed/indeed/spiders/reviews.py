@@ -20,13 +20,10 @@ class RatingsSpider(scrapy.Spider):
         self.urls = urls
 
 
-    def parse(self, response): # add an argument for the urls that get attributed to this process
-        # for url in self.urls:
+    def parse(self, response):
         for url in range(len(self.urls)):
             joined_url = response.urljoin(self.urls[url])
             yield scrapy.Request(url=joined_url, callback=self.parse_reviews)
-        # prRed(url)
-        prRed("End of spider.")
 
 
     def parse_reviews(self, response):
@@ -53,6 +50,7 @@ class RatingsSpider(scrapy.Spider):
             except Exception as e:
                 prRed(e)
 
+            # Checking if important information is present, if thats not the case it wont be passed into the pipeline
             for key in ["review_text", "review_title", "review_rating"]:
                 if review[key] == None:
                     prRed("\nWill be discarded, reason: this dataset was incomplete.\neither 'review_text', 'review_title' or 'review_rating' are None.")
@@ -63,14 +61,8 @@ class RatingsSpider(scrapy.Spider):
                 prRed(self.counter)
                 yield review
 
-
-
-if __name__ == "__main__":
+# to be called when executing the spider from another script
+def crawler(urls):
     process = CrawlerProcess(settings=get_project_settings())
-    process.crawl(RatingsSpider, urls="?start=1400")
+    process.crawl(RatingsSpider, urls=urls)
     process.start()
-else:
-    def crawler(urls):
-        process = CrawlerProcess(settings=get_project_settings())
-        process.crawl(RatingsSpider, urls=urls)
-        process.start()
